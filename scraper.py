@@ -83,7 +83,7 @@ def convert_mth_strings ( mth_string ):
 
 #### VARIABLES 1.0
 
-entity_id = "sp_NFTR1H_BHNHST"
+entity_id = "NFTR1H_BHNHST_gov"
 url = "http://www.bartshealth.nhs.uk/about-us/our-governance/financial-transparency"
 errors = 0
 data = []
