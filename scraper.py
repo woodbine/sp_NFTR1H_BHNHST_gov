@@ -44,7 +44,6 @@ def validateURL(url):
             count += 1
             r = urllib2.urlopen(url)
         sourceFilename = r.headers.get('Content-Disposition')
-
         if sourceFilename:
             ext = os.path.splitext(sourceFilename)[1].replace('"', '').replace(';', '').replace(' ', '')
         else:
@@ -83,8 +82,8 @@ def convert_mth_strings ( mth_string ):
 
 #### VARIABLES 1.0
 
-entity_id = "NFTR1H_BHNHST_gov"
-url = "http://www.bartshealth.nhs.uk/about-us/our-governance/financial-transparency"
+entity_id = "sp_NFTR1H_BHNHST"
+url = "https://www.bartshealth.nhs.uk/key-documents"
 errors = 0
 data = []
 
@@ -96,13 +95,13 @@ soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-blocks = soup.find('td', text=re.compile('Month')).find_all_next('td')
+blocks = soup.find('table', attrs={'summary': 'Monthly financial transparency documents'}).find_all('a')
 for block in blocks:
-    if '.xlsx' in block.find_all('a')[0]['href']:
-        link = 'http://www.bartshealth.nhs.uk'+block.find_all('a')[0]['href']
-        title = block.find_all('a')[0].text.strip()
+    if '.xlsx' in block['href']:
+        link = 'http://www.bartshealth.nhs.uk'+block['href']
+        title = block.text.strip()
         csvMth = title[:3]
-        csvYr = title[-4:]
+        csvYr = title.split()[1][-4:]
         csvMth = convert_mth_strings(csvMth.upper())
         data.append([csvYr, csvMth, link])
 
